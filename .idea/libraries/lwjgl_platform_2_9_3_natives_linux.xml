@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="lwjgl-platform-2.9.3-natives-linux">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../../-- gradle/caches/modules-2/files-2.1/org.lwjgl.lwjgl/lwjgl-platform/2.9.3/b1eafe80093381c56415731e1d64279e6140bcd0/lwjgl-platform-2.9.3-natives-linux.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
