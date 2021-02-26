@@ -1,2 +1,1 @@
-include ':app', ':core', ':desktop'
-
+include ':app', ':luaj', ':core', ':desktop', ':jME-TTF'

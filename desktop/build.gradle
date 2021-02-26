@@ -1,6 +1,56 @@
-apply plugin: "java"
-sourceSets.main.java.srcDirs = ["src/"]
+apply plugin: 'java'
+apply plugin: 'kotlin'
+sourceSets.main.java.srcDirs = ["src/main/java"]
 
+buildscript {
+    ext.kotlinVersion = '1.4.30'
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+    }
+}
+
+repositories {
+    mavenCentral()
+}
 dependencies {
-    compile files("../app/assets")
+    compile files('../app/assets')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+}
+
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.your.package.DesktopLauncher'
+    }
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+
+    subprojects.each { subproject ->
+        /** include all the compiled classes from the projects that are not specified as a depencency for any other */
+        from { subproject.configurations.archives.allArtifacts.files.collect { zipTree(it) } }
+        /** include all the dependencies of every project */
+        from {
+            subproject.configurations.compile.collect {
+                println("FILE = " + it)
+                /** we manually check for the signed lib Jars. maybe make this happen automatically later
+                 * signed Jars need to be repackages because otherwise they will not work in the resulting Jar */
+                if (it.name.contains("jgit")) {
+                    println(" === KNOWN SIGNED JAR: $it.name ===")
+                    def filesToRemove = ["META-INF/ECLIPSE_.RSA", "META-INF/ECLIPSE_.SF"]
+                    zipTree(it).matching { f -> f.exclude(filesToRemove) }
+                } else {
+                    zipTree(it)
+                }
+            }
+        }
+        /** this includes all the subprojects */
+        from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    }
+
+    baseName = "your_project"
 }

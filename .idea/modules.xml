@@ -2,11 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/HeyGame.iml" filepath="$PROJECT_DIR$/HeyGame.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/core/core.iml" filepath="$PROJECT_DIR$/core/core.iml" />
-      <module fileurl="file://$PROJECT_DIR$/desktop/desktop.iml" filepath="$PROJECT_DIR$/desktop/desktop.iml" />
-      <module fileurl="file://$PROJECT_DIR$/jme-android-example.iml" filepath="$PROJECT_DIR$/jme-android-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/template_-_Copy.iml" filepath="$PROJECT_DIR$/.idea/modules/template_-_Copy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/template_-_Copy.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/template_-_Copy.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/template_-_Copy.core.iml" filepath="$PROJECT_DIR$/.idea/modules/core/template_-_Copy.core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/desktop/template_-_Copy.desktop.iml" filepath="$PROJECT_DIR$/.idea/modules/desktop/template_-_Copy.desktop.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/jME-TTF/template_-_Copy.jME-TTF.iml" filepath="$PROJECT_DIR$/.idea/modules/jME-TTF/template_-_Copy.jME-TTF.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/luaj/template_-_Copy.luaj.iml" filepath="$PROJECT_DIR$/.idea/modules/luaj/template_-_Copy.luaj.iml" />
     </modules>
   </component>
 </project>

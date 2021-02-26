@@ -1,11 +1,49 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
+group 'com.company'
+version '1.0-SNAPSHOT'
+
+//buildScan { termsOfServiceUrl = 'https://gradle.com/terms-of-service'; termsOfServiceAgree = 'yes' }
+
 buildscript {
+    ext.kotlinVersion = '1.4.30'
+
+    /** ---------- JMonkeyEngine3 versions ---------- */
+
+    /** group */
+    ext.jmeOfficialBuildGroup = 'org.jmonkeyengine'
+    ext.jmeJitpackGroup ='com.github.jMonkeyEngine.jmonkeyengine'
+
+    /** version */
+//    ext.jmeOfficialVersion = '3.3.0-alpha1'
+//    ext.jmeOfficialVersion = '3.3.0-alpha5'
+    ext.jmeOfficialVersion = '3.3.0-beta1'
+//    ext.jmeOfficialVersion = '3.2.4-stable'
+//    ext.jmeOfficialVersion = '3.2.2-stable'
+    ext.jmeJitpackVersion = 'master-SNAPSHOT'
+
+    /** actual */
+//    ext.jmeGroup = ext.jmeJitpackGroup
+//    ext.jmeVersion = ext.jmeJitpackVersion
+
+    ext.jmeGroup = ext.jmeOfficialBuildGroup
+    ext.jmeVersion = ext.jmeOfficialVersion
+
+    //ext.jmeTtfVersion = '2.1.2'
+    ext.jmeTtfVersion = '2.2.1'
+
+    /** ---------- ----------------------- ---------- */
+
     repositories {
+        mavenCentral()
         jcenter()
+//        maven { url 'https://dl.bintray.com/kategory/maven' }
+        google()
+        maven { url 'https://jitpack.io' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:4.1.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -14,35 +52,94 @@ buildscript {
 
 allprojects {
     repositories {
+        mavenCentral()
+        google()
         jcenter()
-        maven {
-            url 'http://dl.bintray.com/jmonkeyengine/org.jmonkeyengine'
-        }
+        maven { url 'http://dl.bintray.com/jmonkeyengine/org.jmonkeyengine' }
+        maven { url 'https://clojars.org/repo' }
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+        maven { url "https://jitpack.io" }
+    }
+}
+
+/** LuaJ is presented in its source form, taken from its GitHub repo so that you can easily
+ * hack into it if needed (a git submodule + LuaJ fork might be a better solution for you but oh well) */
+
+project(':luaj') {
+    apply plugin: "java"
+    dependencies {
+        /** --- begin LuaJ source dependencies --- */
+        /** BECAUSE LUA SOURCE NEEDS THAT */
+        // https://mvnrepository.com/artifact/org.apache.bcel/bcel
+        implementation group: 'org.apache.bcel', name: 'bcel', version: '6.2'
+        /** --- end LuaJ source dependencies --- */
     }
 }
 
 project(":core") {
     apply plugin: "java"
     dependencies {
-        compile 'org.jmonkeyengine:jme3-core:3.1.+'
+        implementation project(":jME-TTF") /// https://github.com/ATryder/jME-TTF - cloned into the main project folder
+        implementation project(":luaj")
+
+        /** ------------------------------------------------------------------------
+         *   Scripting languages
+         * ------------------------------------------------------------------------- */
+
+        /** Lua -- if you don't need the source form included in the separate module,
+         * remove the module and uncomment these lines
+         * ------------------------------------------------------------------------ */
+        // https://mvnrepository.com/artifact/org.luaj/luaj-jse
+        //implementation group: 'org.luaj', name: 'luaj-jse', version: '3.0.1'
+        //implementation "com.github.Luaj.luaj:luaj-jse:master-SNAPSHOT"
+
+        /** BCEL moved to the luaj project */
+        /** --- begin LuaJ source dependencies --- */
+        /** BECAUSE LUA SOURCE NEEDS THAT */
+        // https://mvnrepository.com/artifact/org.apache.bcel/bcel
+        //implementation group: 'org.apache.bcel', name: 'bcel', version: '6.2'
+        /** --- end LuaJ source dependencies --- */
+
+        /** ------------------------------------------------------------------------
+         *   JMonkeyEngine and libraries
+         * ------------------------------------------------------------------------- */
+        implementation "$jmeGroup:jme3-core:$jmeVersion"
+        implementation "$jmeGroup:jme3-plugins:$jmeVersion"
+        implementation "$jmeGroup:jme3-effects:$jmeVersion"
+        /* uncomment if you need JME example data */
+        //implementation "org.jmonkeyengine:jme3-examples:$jmeVersion"
+
+        // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
+        implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.0-alpha1'
+
+        /* uncomment if you want the original JME-TTF artifact instead of the module included here */
+//        implementation ("com.atr:jme-ttf:$jmeTtfVersion") {
+//            exclude group: 'org.jmonkeyengine', module: 'jme3-desktop'
+//        }
+
+    }
+    tasks.withType(JavaCompile) {
+        sourceCompatibility = "1.8"
+        targetCompatibility = "1.8"
     }
 }
+
 
 project(":desktop") {
     apply plugin: "java"
     dependencies {
-        compile project(":core")
-        compile 'org.jmonkeyengine:jme3-desktop:3.1.+'
-        compile 'org.jmonkeyengine:jme3-lwjgl:3.1.+'
+        implementation project(":core")
+        implementation "$jmeGroup:jme3-desktop:$jmeVersion"
+        implementation "$jmeGroup:jme3-lwjgl:$jmeVersion"
     }
 }
 
 project(":app") {
     apply plugin: "android"
     dependencies {
-        compile project(":core")
-        compile 'org.jmonkeyengine:jme3-android:3.1.+'
-        compile 'org.jmonkeyengine:jme3-android-native:3.1.+'
+        implementation project(":core")
+        implementation "$jmeGroup:jme3-android:$jmeVersion"
+        implementation "$jmeGroup:jme3-android-native:$jmeVersion"
     }
 }
 

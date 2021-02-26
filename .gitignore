@@ -1,3 +1,7 @@
+# Local copies of dependencies repos
+jME-TTF/
+
+# IDEA
 *.iml
 .gradle
 /local.properties
@@ -121,3 +125,20 @@ crashlytics-build.properties
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+
+
+# The temporary JScheme sources copies
+/app/jscheme_copy/*.*
+
+# The JMonkeyEngine related things
+.jme3-spaceshift-editor
+.jmonkeybuilder
+
+
+# Lua
+/core/src/main/java/org/luaj
+/core/src/main/java/lua*
+
+# Saves
+/saves
