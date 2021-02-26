@@ -12,7 +12,7 @@ it is easy to turn this into a desktop-only project.
 *The general structure is based on ideas from https://habrahabr.ru/post/249305/*
 
 Some additional works are included/referenced:
-- JME-TTF by Adam T. Ryder -- this library is included in source form as a separate module for easier hacking (since TTF is not an easy)
+- JME-TTF by Adam T. Ryder -- this library is included in source form as a separate module for easier hacking (since TTF is not an easy). The modified version that this project uses is available at https://github.com/noncom/jME-TTF.git
 - bits of my addon "Clarity" for Adams TTF library to enable basic TTF functions on the supported platforms
 - LuaJ -- included in source form as a module and originally available at https://github.com/luaj/luaj
 
@@ -26,6 +26,8 @@ The modules layout is the following:
 - `luaj` -- the copy of LuaJ source code to enable easier hacking into Lua
 
 ## Usage
+
+Don't forget `git submodule update --init` after you've cloned the repo.
 
 Just add your code. You might want to remove unnecessary additional modules, code and resources since
 they are included in this project to represent the most complete example.
